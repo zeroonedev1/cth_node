@@ -10,12 +10,12 @@ async function transcribeAudio(filename, res) {
 
     try {
         const apiKey = process.env.OPENAI_API_KEY;
+        console.log("Using OpenAI API Key:", apiKey);
         if (!apiKey) {
             throw new Error("API key is missing. Please check your .env file.");
         }
 
         // Initialize the OpenAI client with the given API key.
-        console.log("Using OpenAI API Key:", apiKey);
         const openAiClient = new openai.OpenAI({ apiKey });
 
         // Send the audio file for transcription using the specified model.
