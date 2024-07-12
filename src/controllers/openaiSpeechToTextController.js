@@ -1,33 +1,33 @@
 const fs = require('fs');
 const path = require('path');
-const openai = require('openai');
-require('dotenv').config();
+const OpenAI = require("openai");
+const geminiController = require('../controllers/geminiController');
+const env = require('dotenv').config();
+const openAIKEY = require('../config/const')
 
 async function transcribeAudio(filename, res) {
-    console.log("req.file------", filename.file);
     const audioFile = filename.file;
-    console.log("req.audioFile.path------", audioFile.path);
+    // console.log("req.audioFile.path------", audioFile.path);
+    // console.log("openAIKEY", openAIKEY);
 
     try {
-        const apiKey = process.env.OPENAI_API_KEY;
-        console.log("Using OpenAI API Key:", apiKey);
-        if (!apiKey) {
-            throw new Error("API key is missing. Please check your .env file.");
-        }
-
-        // Initialize the OpenAI client with the given API key.
-        const openAiClient = new openai.OpenAI({ apiKey });
-
-        // Send the audio file for transcription using the specified model.
-        const transcription = await openAiClient.audio.transcriptions.create({
+        const openai = new OpenAI({
+            apiKey: openAIKEY.openAIKEY
+        })
+        const transcription = await openai.audio.transcriptions.create({
             file: fs.createReadStream(audioFile.path),
-            model: 'whisper-1'
-        });
-
-        // Return the transcription result.
+            model: "whisper-1"
+        })
+        console.log("transcription", transcription);
+        const body = {
+            body: {
+                prompt: transcription.text
+            }
+        }
+        let sttData = await geminiController.geminiController(req = body, res);
+        console.log("sttData", sttData);
         return transcription;
     } catch (error) {
-        // Log any errors that occur during transcription.
         console.error('Error', error);
         res.status(500).json({ error: error.message });
     }
