@@ -13,3 +13,18 @@
 //     console.log(transcription.text);
 // }
 // main();
+
+// const OpenAI = require("openai")
+// import fs from "fs";
+// const openai = new OpenAI({
+//     apiKey: ""
+// })
+
+// const audioFun = async () => {
+//     const transcription = await openai.audio.transcriptions.create({
+//         file: fs.createReadStream("aud.mp3"),
+//         model: "whisper-1"
+//     })
+//     console.log(transcription.text)
+// }
+// audioFun();

@@ -7,7 +7,7 @@ const cors = require('cors'); // Import cors
 
 const corsOptions = {
   origin: 'http://localhost:3002', // Allow requests from this origin
-  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+  optionsSuccessStatus: 200,
 };
 
 
